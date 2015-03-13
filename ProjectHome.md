@@ -1,0 +1,1 @@
+Thracian Treasure Slot Simulation is model of none existing slot game. The main goal is to calculate RTP by using Monte-Carlo simulation.
