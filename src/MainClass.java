@@ -22,16 +22,15 @@
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
-/**
- * Main application class.
- */
+/** Main application class. */
 class MainClass {
-	/**
-	 * Free spins helper class. Only keeps information of free spin properties.
-	 */
+	/** Free spins helper class. Only keeps information of free spin properties. */
 	private static class FreeSpin {
 		public int freeGamesNumber = 0;
 		public int[][] reels = {};
@@ -44,20 +43,14 @@ class MainClass {
 		}
 	}
 
-	/**
-	 * Pseudo-random number generator.
-	 */
+	/** Pseudo-random number generator. */
 	private static Random prng = new SecureRandom();
 
-	/**
-	 * List of symbols names.
-	 */
+	/** List of symbols names. */
 	private static String[] symbols = { "", "SYM01", "", "SYM03", "SYM04", "SYM05", "SYM06", "SYM07", "SYM08", "SYM09",
 			"SYM10", "SYM11", "SYM12", "", "", "", "SYM16", };
 
-	/**
-	 * Slot game pay table.
-	 */
+	/** Slot game pay table. */
 	private static int[][] paytable = { new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new int[] { 0, 0, 0, 30, 20, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -65,14 +58,10 @@ class MainClass {
 			new int[] { 0, 0, 0, 250, 100, 100, 75, 50, 40, 20, 6, 5, 4, 0, 0, 0, 0 },
 			new int[] { 0, 0, 0, 500, 250, 175, 150, 100, 50, 30, 25, 15, 10, 0, 0, 0, 0 }, };
 
-	/**
-	 * Scatter multipliers discrete distribution.
-	 */
+	/** Scatter multipliers discrete distribution. */
 	private static int[] scatterMultipliers = { 0, 0, 0, 1, 2, 3 };
 
-	/**
-	 * Lines combinations.
-	 */
+	/** Lines combinations. */
 	private static int[][] lines = { new int[] { 1, 1, 1, 1, 1 }, new int[] { 0, 0, 0, 0, 0 },
 			new int[] { 2, 2, 2, 2, 2 }, new int[] { 0, 1, 2, 1, 0 }, new int[] { 2, 1, 0, 1, 2 },
 			new int[] { 0, 0, 1, 2, 2 }, new int[] { 2, 2, 1, 0, 0 }, new int[] { 1, 0, 1, 2, 1 },
@@ -91,9 +80,7 @@ class MainClass {
 			new int[] { 1, 1, 0, 1, 1 }, new int[] { 1, 1, 2, 1, 1 }, new int[] { 2, 0, 1, 0, 1 },
 			new int[] { 0, 2, 1, 2, 1 }, new int[] { 1, 0, 2, 2, 0 }, new int[] { 1, 2, 0, 0, 2 }, };
 
-	/**
-	 * Strips 1 in base game.
-	 */
+	/** Strips 1 in base game. */
 	private static int[][] baseReels1 = {
 			new int[] { 3, 7, 4, 7, 11, 12, 6, 11, 7, 7, 9, 4, 10, 12, 7, 7, 5, 9, 8, 1, 9, 8, 10, 9, 7, 5, 5, 7, 9, 10,
 					10, 12, 6, 6, 10, 10, 8, 11, 8, 7, 4, 3, 5, 12, 6, 9, 8, 1, 9, 8, 9, 8, 4, 3, 11, 11, 7, 9, 8, 11,
@@ -111,9 +98,7 @@ class MainClass {
 					10, 10, 5, 10, 6, 3, 8, 5, 8, 8, 4, 5, 5, 7, 3, 4, 6, 6, 5, 3, 3, 5, 6, 3, 3, 12, 5, 4, 4, 3, 3, 5,
 					5 }, };
 
-	/**
-	 * Strips 2 in base game.
-	 */
+	/** Strips 2 in base game. */
 	private static int[][] baseReels2 = {
 			new int[] { 7, 7, 4, 16, 3, 12, 6, 9, 7, 3, 9, 10, 10, 3, 7, 3, 7, 5, 8, 8, 9, 8, 3, 9, 7, 3, 11, 16, 9, 10,
 					10, 3, 6, 6, 10, 16, 8, 8, 8, 7, 10, 12, 4, 4, 6, 8, 4, 8, 7, 8, 9, 8, 10, 7, 11, 9, 7, 9, 8, 9, 7,
@@ -131,9 +116,7 @@ class MainClass {
 					3, 12, 10, 5, 10, 6, 11, 8, 11, 11, 8, 8, 10, 10, 7, 11, 4, 3, 11, 11, 3, 3, 12, 6, 12, 3, 12, 10,
 					4, 12, 11, 11, 11, 12 }, };
 
-	/**
-	 * Strips 3 in base game.
-	 */
+	/** Strips 3 in base game. */
 	private static int[][] baseReels3 = {
 			new int[] { 16, 7, 7, 16, 10, 12, 16, 9, 7, 16, 11, 4, 16, 12, 7, 16, 7, 12, 16, 7, 10, 16, 10, 9, 16, 11,
 					12, 16, 7, 10, 16, 12, 6, 16, 10, 10, 16, 8, 7, 16, 4, 12, 16, 12, 7, 16, 10, 10, 16, 10, 12, 16,
@@ -151,9 +134,7 @@ class MainClass {
 					12, 12, 10, 5, 10, 6, 11, 8, 11, 11, 8, 8, 10, 10, 7, 11, 4, 9, 11, 11, 8, 8, 12, 6, 12, 3, 12, 10,
 					4, 16, 11, 11, 11, 12 }, };
 
-	/**
-	 * Strips 4 in base game.
-	 */
+	/** Strips 4 in base game. */
 	private static int[][] baseReels4 = {
 			new int[] { 7, 7, 4, 12, 3, 12, 6, 9, 7, 7, 9, 4, 10, 12, 7, 7, 7, 5, 8, 9, 9, 8, 10, 9, 7, 11, 11, 12, 9,
 					10, 10, 12, 6, 6, 10, 8, 8, 8, 8, 7, 8, 12, 12, 12, 8, 5, 8, 7, 9, 8, 9, 8, 8, 7, 11, 9, 7, 9, 8, 9,
@@ -171,9 +152,7 @@ class MainClass {
 					12, 11, 10, 5, 10, 6, 11, 8, 11, 12, 8, 11, 11, 10, 7, 12, 4, 9, 11, 11, 12, 8, 12, 6, 12, 3, 12,
 					10, 4, 10, 11, 11, 11, 12 }, };
 
-	/**
-	 * Strips 5 in base game.
-	 */
+	/** Strips 5 in base game. */
 	private static int[][] baseReels5 = {
 			new int[] { 3, 7, 10, 10, 7, 10, 3, 3, 7, 10, 10, 7, 10, 3, 3, 7, 10, 10, 7, 10, 3, 3, 7, 10, 10, 7, 10, 3,
 					3, 7, 10, 10, 7, 10, 3, 3, 7, 10, 10, 7, 10, 3, 3, 7, 10, 10, 7, 10, 3, 3, 7, 10, 10, 7, 10, 3, 3,
@@ -191,9 +170,7 @@ class MainClass {
 					8, 12, 9, 8, 9, 8, 12, 8, 8, 9, 8, 8, 12, 9, 8, 12, 9, 8, 9, 8, 12, 8, 8, 9, 8, 8, 8, 12, 8, 8, 9,
 					8, 8 }, };
 
-	/**
-	 * Strips 1 in free spins.
-	 */
+	/** Strips 1 in free spins. */
 	private static int[][] freeReels1 = {
 			new int[] { 3, 7, 4, 11, 11, 12, 6, 11, 7, 3, 9, 4, 10, 12, 16, 7, 5, 9, 8, 1, 9, 8, 10, 9, 7, 16, 11, 7, 9,
 					10, 10, 12, 6, 6, 10, 16, 8, 8, 8, 7, 4, 12, 12, 12, 6, 9, 8, 1, 9, 8, 9, 8, 4, 7, 11, 4, 7, 9, 8,
@@ -211,9 +188,7 @@ class MainClass {
 					12, 8, 10, 5, 10, 6, 11, 8, 16, 8, 8, 8, 5, 5, 7, 11, 4, 9, 11, 11, 16, 8, 12, 6, 12, 3, 7, 5, 4, 8,
 					11, 11, 11, 12 }, };
 
-	/**
-	 * Strips 2 in free spins.
-	 */
+	/** Strips 2 in free spins. */
 	private static int[][] freeReels2 = {
 			new int[] { 3, 7, 4, 16, 11, 12, 6, 11, 7, 7, 9, 4, 10, 12, 7, 7, 5, 9, 8, 1, 9, 8, 10, 9, 7, 11, 11, 7, 9,
 					10, 10, 12, 6, 6, 10, 10, 8, 8, 8, 7, 4, 12, 12, 12, 6, 9, 8, 1, 9, 8, 9, 8, 4, 7, 11, 9, 7, 9, 8,
@@ -231,9 +206,7 @@ class MainClass {
 					12, 9, 10, 16, 10, 6, 11, 8, 11, 5, 8, 8, 5, 5, 7, 11, 8, 9, 11, 11, 8, 8, 12, 6, 12, 3, 12, 5, 4,
 					9, 11, 11, 11, 12 }, };
 
-	/**
-	 * Strips 3 in free spins.
-	 */
+	/** Strips 3 in free spins. */
 	private static int[][] freeReels3 = {
 			new int[] { 3, 7, 4, 6, 11, 12, 6, 11, 7, 7, 9, 4, 10, 12, 7, 7, 5, 9, 8, 1, 9, 8, 10, 9, 7, 11, 11, 7, 9,
 					10, 10, 12, 6, 6, 10, 6, 8, 8, 8, 7, 4, 12, 12, 12, 6, 9, 8, 1, 9, 8, 9, 8, 4, 7, 11, 6, 7, 9, 8,
@@ -251,105 +224,71 @@ class MainClass {
 					12, 6, 10, 5, 10, 6, 11, 8, 11, 6, 8, 8, 5, 5, 7, 11, 4, 9, 11, 11, 16, 8, 12, 6, 12, 3, 12, 5, 4,
 					6, 11, 11, 11, 12 }, };
 
-	/**
-	 * Wild expansion in base game after 1 wild.
-	 */
+	/** Wild expansion in base game after 1 wild. */
 	private static int[][] baseReels1Wilds1 = { new int[] { 0, 0, 0 }, new int[] { 2, 2, 2 }, new int[] { 2, 2, 2 },
 			new int[] { 2, 10, 2 }, new int[] { 10, 10, 10 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels1Wilds2 = { new int[] { 2, 2, 2 }, new int[] { 2, 2, 2 }, new int[] { 2, 2, 2 },
 			new int[] { 2, 10, 2 }, new int[] { 10, 10, 10 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels2Wilds1 = { new int[] { 2, 4, 5 }, new int[] { 4, 3, 4 }, new int[] { 5, 5, 5 },
 			new int[] { 6, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels2Wilds2 = { new int[] { 2, 4, 5 }, new int[] { 4, 3, 4 }, new int[] { 5, 5, 5 },
 			new int[] { 6, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels3Wilds1 = { new int[] { 2, 2, 4 }, new int[] { 2, 2, 2 }, new int[] { 2, 3, 2 },
 			new int[] { 2, 3, 2 }, new int[] { 2, 3, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels3Wilds2 = { new int[] { 3, 3, 2 }, new int[] { 3, 2, 3 }, new int[] { 3, 3, 2 },
 			new int[] { 2, 3, 2 }, new int[] { 3, 2, 3 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels4Wilds1 = { new int[] { 2, 4, 5 }, new int[] { 15, 15, 15 },
 			new int[] { 20, 20, 20 }, new int[] { 6, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels4Wilds2 = { new int[] { 2, 4, 5 }, new int[] { 15, 15, 15 },
 			new int[] { 20, 20, 20 }, new int[] { 6, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels5Wilds1 = { new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 },
 			new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] baseReels5Wilds2 = { new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 },
 			new int[] { 0, 0, 0 }, new int[] { 0, 0, 0 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] freeReels1Wilds1 = { new int[] { 2, 4, 5 }, new int[] { 10, 10, 10 }, new int[] { 5, 5, 5 },
 			new int[] { 6, 6, 6 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] freeReels1Wilds2 = { new int[] { 2, 4, 5 }, new int[] { 5, 5, 5 }, new int[] { 5, 5, 5 },
 			new int[] { 4, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] freeReels2Wilds1 = { new int[] { 2, 4, 5 }, new int[] { 4, 3, 4 }, new int[] { 5, 5, 5 },
 			new int[] { 5, 5, 5 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] freeReels2Wilds2 = { new int[] { 2, 4, 5 }, new int[] { 4, 3, 4 }, new int[] { 5, 5, 5 },
 			new int[] { 5, 5, 5 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] freeReels3Wilds1 = { new int[] { 2, 4, 5 }, new int[] { 20, 20, 20 }, new int[] { 5, 5, 5 },
 			new int[] { 6, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Wild expansion discrete distribution.
-	 */
+	/** Wild expansion discrete distribution. */
 	private static int[][] freeReels3Wilds2 = { new int[] { 2, 4, 5 }, new int[] { 20, 20, 20 }, new int[] { 5, 5, 5 },
 			new int[] { 6, 3, 4 }, new int[] { 4, 6, 2 }, };
 
-	/**
-	 * Free spins multipliers discrete distribution.
-	 */
+	/** Free spins multipliers discrete distribution. */
 	private static int[] freeMultiplierDistribution = { 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8,
 			2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2,
 			3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3,
@@ -365,9 +304,7 @@ class MainClass {
 			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 
-	/**
-	 * Base game scatter discrete distribution.
-	 */
+	/** Base game scatter discrete distribution. */
 	private static int[] baseScatterDistritution = { 10, 12, 14, 15, 17, 20, 22, 25, 30, 40, 10, 12, 14, 15, 17, 20, 22,
 			25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20,
 			25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20,
@@ -378,9 +315,7 @@ class MainClass {
 			20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
 			25 };
 
-	/**
-	 * Free spins scatter discrete distribution.
-	 */
+	/** Free spins scatter discrete distribution. */
 	private static int[] free1ScatterDistritution = { 10, 12, 14, 15, 17, 20, 22, 25, 30, 40, 10, 12, 14, 15, 17, 20,
 			22, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17,
 			20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17,
@@ -391,9 +326,7 @@ class MainClass {
 			25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 25, 25, 25, 25, 25, 25, 25, 25,
 			25, 25 };
 
-	/**
-	 * Free spins scatter discrete distribution.
-	 */
+	/** Free spins scatter discrete distribution. */
 	private static int[] free2ScatterDistritution = { 10, 12, 14, 15, 17, 20, 22, 25, 30, 40, 10, 12, 14, 15, 17, 20,
 			22, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17,
 			20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17,
@@ -404,9 +337,7 @@ class MainClass {
 			25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 25, 25, 25, 25, 25, 25, 25, 25,
 			25, 25 };
 
-	/**
-	 * Free spins scatter discrete distribution.
-	 */
+	/** Free spins scatter discrete distribution. */
 	private static int[] free3ScatterDistritution = { 10, 12, 14, 15, 17, 20, 22, 25, 30, 40, 10, 12, 14, 15, 17, 20,
 			22, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17,
 			20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17, 20, 25, 30, 40, 10, 12, 14, 15, 17,
@@ -417,9 +348,7 @@ class MainClass {
 			25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 20, 25, 25, 25, 25, 25, 25, 25, 25, 25,
 			25, 25 };
 
-	/**
-	 * Base game strips discrete distribution.
-	 */
+	/** Base game strips discrete distribution. */
 	private static int[] baseStripsDistribution = { 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3,
 			4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4,
 			5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 4, 5, 1,
@@ -450,55 +379,35 @@ class MainClass {
 			4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 			5, 5, 5, 5, 5 };
 
-	/**
-	 * All scatters discrete distribution together.
-	 */
+	/** All scatters discrete distribution together. */
 	private static int[][] scatterDistritutions = { baseScatterDistritution, free1ScatterDistritution,
 			free2ScatterDistritution, free3ScatterDistritution };
 
-	/**
-	 * Base reels strips.
-	 */
+	/** Base reels strips. */
 	private static int[][][] baseReels = { baseReels1, baseReels2, baseReels3, baseReels4, baseReels5 };
 
-	/**
-	 * Base reels strips.
-	 */
+	/** Base reels strips. */
 	private static int[][][] freeReels = { freeReels1, freeReels2, freeReels3 };
 
-	/**
-	 * Reels strips 1.
-	 */
+	/** Reels strips 1. */
 	private static int[][][] reels1 = { baseReels1, freeReels1, freeReels2, freeReels3 };
 
-	/**
-	 * Reels strips 2.
-	 */
+	/** Reels strips 2. */
 	private static int[][][] reels2 = { baseReels2, freeReels1, freeReels2, freeReels3 };
 
-	/**
-	 * Reels strips 3.
-	 */
+	/** Reels strips 3. */
 	private static int[][][] reels3 = { baseReels3, freeReels1, freeReels2, freeReels3 };
 
-	/**
-	 * Reels strips 4.
-	 */
+	/** Reels strips 4. */
 	private static int[][][] reels4 = { baseReels4, freeReels1, freeReels2, freeReels3 };
 
-	/**
-	 * Reels strips 5.
-	 */
+	/** Reels strips 5. */
 	private static int[][][] reels5 = { baseReels5, freeReels1, freeReels2, freeReels3 };
 
-	/**
-	 * All strips together.
-	 */
+	/** All strips together. */
 	private static int[][][][] reelsSets = { reels1, reels2, reels3, reels4, reels5 };
 
-	/**
-	 * Wild symbols distributions together.
-	 */
+	/** Wild symbols distributions together. */
 	private static int[][][][] wildsSets = { new int[][][] { new int[][] {}, baseReels1Wilds1, baseReels1Wilds2 },
 			new int[][][] { new int[][] {}, baseReels2Wilds1, baseReels2Wilds2 },
 			new int[][][] { new int[][] {}, baseReels3Wilds1, baseReels3Wilds2 },
@@ -508,136 +417,92 @@ class MainClass {
 			new int[][][] { new int[][] {}, freeReels2Wilds1, freeReels2Wilds2 },
 			new int[][][] { new int[][] {}, freeReels3Wilds1, freeReels3Wilds2 }, };
 
-	/**
-	 * Current reels reference.
-	 */
+	/** Current reels reference. */
 	private static int[][][] reels = {};
 
-	/**
-	 * Current wilds distributions reference.
-	 */
+	/** Current wilds distributions reference. */
 	private static int[][][] wilds = {};
 
-	/**
-	 * Current visible symbols on the screen.
-	 */
+	/** Current visible symbols on the screen. */
 	private static int[][] view = { new int[] { -1, -1, -1 }, new int[] { -1, -1, -1 }, new int[] { -1, -1, -1 },
 			new int[] { -1, -1, -1 }, new int[] { -1, -1, -1 } };
 
-	/**
-	 * Current scatter multiplier.
-	 */
+	/** Current scatter multiplier. */
 	private static int scatterMultiplier = 1;
 
-	/**
-	 * Total bet in single base game spin.
-	 */
+	/** Total bet in single base game spin. */
 	private static int totalBet = lines.length;
 
-	/**
-	 * List of free spins to be played.
-	 */
+	/** List of free spins to be played. */
 	private static List<FreeSpin> freeGamesList = new ArrayList<FreeSpin>();
 
-	/**
-	 * Current free spins multiplier.
-	 */
+	/** Current free spins multiplier. */
 	private static int freeGamesMultiplier = 1;
 
-	/**
-	 * Total amount of won money.
-	 */
+	/** Total amount of won money. */
 	private static long wonMoney = 0L;
 
-	/**
-	 * Total amount of lost money.
-	 */
+	/** Total amount of lost money. */
 	private static long lostMoney = 0L;
 
-	/**
-	 * Total amount of won money in base game.
-	 */
+	/** Total amount of won money in base game. */
 	private static long baseMoney = 0L;
 
-	/**
-	 * Total amount of won money in free spins.
-	 */
+	/** Total amount of won money in free spins. */
 	private static long freeMoney = 0L;
 
-	/**
-	 * Max amount of won money in base game.
-	 */
+	/** Max amount of won money in base game. */
 	private static long baseMaxWin = 0L;
 
-	/**
-	 * Max amount of won money in free spins.
-	 */
+	/** Max amount of won money in free spins. */
 	private static long freeMaxWin = 0L;
 
-	/**
-	 * Total number of base games played.
-	 */
+	/** Histogram of the wins in the base game. */
+	private static Map<Integer, Integer> baseWinsHistogram = new HashMap<Integer, Integer>();
+
+	/** Histogram of the wins in the free spins. */
+	private static Map<Integer, Integer> freeWinsHistogram = new HashMap<Integer, Integer>();
+
+	/** Total number of base games played. */
 	private static long totalNumberOfGames = 0L;
 
-	/**
-	 * Total number of free spins played.
-	 */
+	/** Total number of free spins played. */
 	private static long totalNumberOfFreeGames = 0L;
 
-	/**
-	 * Total number of free spins started.
-	 */
+	/** Total number of free spins started. */
 	private static long totalNumberOfFreeGameStarts = 0L;
 
-	/**
-	 * Hit rate of wins in base game.
-	 */
+	/** Hit rate of wins in base game. */
 	private static long baseGameHitRate = 0L;
 
-	/**
-	 * Hit rate of wins in free spins.
-	 */
+	/** Hit rate of wins in free spins. */
 	private static long freeGamesHitRate = 0L;
 
-	/**
-	 * Verbose output flag.
-	 */
+	/** Verbose output flag. */
 	private static boolean verboseOutput = false;
 
-	/**
-	 * Free spins flag.
-	 */
+	/** Free spins flag. */
 	private static boolean freeOff = false;
 
-	/**
-	 * Wild substitution flag.
-	 */
+	/** Wild substitution flag. */
 	private static boolean wildsOff = false;
 
-	/**
-	 * Wild expansion flag.
-	 */
+	/** Wild expansion flag. */
 	private static boolean wildExpandOff = false;
 
-	/**
-	 * Symbols win hit rate in base game.
-	 */
+	/** Symbols win hit rate in base game. */
 	private static long[][] baseSymbolMoney = { new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
-	/**
-	 * Symbols hit rate in base game.
-	 */
+	/** Symbols hit rate in base game. */
 	private static long[][] baseGameSymbolsHitRate = { new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
-	/**
-	 * Static constructor for discrete distributions shuffling.
-	 */
+	/** Static constructor for discrete distributions shuffling. */
 	static {
 		for (int last = freeMultiplierDistribution.length - 1, r = -1, swap = -1; last > 0; last--) {
 			r = prng.nextInt(last + 1);
@@ -704,18 +569,12 @@ class MainClass {
 	 * @return Calculated win.
 	 */
 	private static int lineWin(int[] line) {
-		/*
-		 * Keep first symbol in the line.
-		 */
+		/* Keep first symbol in the line. */
 		int symbol = line[0];
 
-		/*
-		 * Wild wymbol passing to find first regular symbol.
-		 */
+		/* Wild symbol passing to find first regular symbol. */
 		for (int i = 0; i < line.length; i++) {
-			/*
-			 * First no wild symbol found.
-			 */
+			/* First no wild symbol found. */
 			if (symbol != 1 && symbol != 2) {
 				break;
 			}
@@ -729,16 +588,12 @@ class MainClass {
 		 */
 		for (int i = 0; i < line.length && wildsOff == false; i++) {
 			if (line[i] == 1 || line[i] == 2) {
-				/*
-				 * Substitute wild with regular symbol.
-				 */
+				/* Substitute wild with regular symbol. */
 				line[i] = symbol;
 			}
 		}
 
-		/*
-		 * Count symbols in winning line.
-		 */
+		/* Count symbols in winning line. */
 		int number = 0;
 		for (int i = 0; i < line.length; i++) {
 			if (line[i] == symbol) {
@@ -748,18 +603,14 @@ class MainClass {
 			}
 		}
 
-		/*
-		 * Clear unused symbols.
-		 */
+		/* Clear unused symbols. */
 		for (int i = number; i < line.length; i++) {
 			line[i] = -1;
 		}
 
 		int win = paytable[number][symbol];
 
-		/*
-		 * There is multiplier in free games mode.
-		 */
+		/* There is multiplier in free games mode. */
 		if (freeGamesList.size() > 0) {
 			win *= freeGamesMultiplier;
 		}
@@ -782,15 +633,11 @@ class MainClass {
 	private static int linesWin(int[][] view) {
 		int win = 0;
 
-		/*
-		 * Check wins in all possible lines.
-		 */
+		/* Check wins in all possible lines. */
 		for (int l = 0; l < lines.length; l++) {
 			int[] line = { -1, -1, -1, -1, -1 };
 
-			/*
-			 * Prepare line for combination check.
-			 */
+			/* Prepare line for combination check. */
 			for (int i = 0; i < line.length; i++) {
 				int index = lines[l][i];
 				line[i] = view[i][index];
@@ -798,18 +645,14 @@ class MainClass {
 
 			int result = lineWin(line);
 
-			/*
-			 * Accumulate line win.
-			 */
+			/* Accumulate line win. */
 			win += result;
 		}
 
 		return (win);
 	}
 
-	/**
-	 * Setup parameters for free spins mode.
-	 */
+	/** Setup parameters for free spins mode. */
 	private static void freeGamesSetup() {
 		int numberOfScatters = 0;
 		int numberOfWilds = 0;
@@ -826,9 +669,7 @@ class MainClass {
 
 		scatterMultiplier = scatterMultipliers[numberOfScatters];
 
-		/*
-		 * In base game 3+ scatters turn into free spins.
-		 */
+		/* In base game 3+ scatters turn into free spins. */
 		if (numberOfScatters < 3 && freeGamesList.size() == 0) {
 			return;
 		} else if (numberOfScatters >= 3 && freeGamesList.size() == 0) {
@@ -864,9 +705,7 @@ class MainClass {
 		}
 	}
 
-	/**
-	 * Expand wild.
-	 */
+	/** Expand wild. */
 	private static void expandWild() {
 		if (wildExpandOff == true) {
 			return;
@@ -956,9 +795,7 @@ class MainClass {
 		}
 	}
 
-	/**
-	 * Play single free spin game.
-	 */
+	/** Play single free spin game. */
 	private static void singleFreeGame() {
 		if (freeOff == true) {
 			return;
@@ -974,79 +811,71 @@ class MainClass {
 
 		expandWild();
 
-		/*
-		 * Win accumulated by lines.
-		 */
+		/* Win accumulated by lines. */
 		int win = linesWin(view) + (scatterMultiplier * totalBet);
 
-		/*
-		 * Add win to the statistics.
-		 */
+		/* Fill free spins wins histogram. */
+		if (freeWinsHistogram.containsKey(win)) {
+			freeWinsHistogram.put(win, freeWinsHistogram.get(win) + 1);
+		} else {
+			freeWinsHistogram.put(win, 1);
+		}
+
+		/* Add win to the statistics. */
 		freeMoney += win;
 		wonMoney += win;
 		if (freeMaxWin < win) {
 			freeMaxWin = win;
 		}
 
-		/*
-		 * Count base game hit rate.
-		 */
+		/* Count base game hit rate. */
 		if (win > 0) {
 			freeGamesHitRate++;
 		}
 	}
 
-	/**
-	 * Play single base game.
-	 */
+	/** Play single base game. */
 	private static void singleBaseGame() {
-		/*
-		 * Select reels according base game strip distribution.
-		 */
+		/* Select reels according base game strip distribution. */
 		int r = baseStripsDistribution[prng.nextInt(baseStripsDistribution.length)] - 1;
 		reels = reelsSets[r];
 		wilds = wildsSets[r];
 
-		/*
-		 * Spin reels.
-		 */
+		/* Spin reels. */
 		spin(reels[0]);
 
 		freeGamesSetup();
 
 		expandWild();
 
-		/*
-		 * Win accumulated by lines.
-		 */
+		/* Win accumulated by lines. */
 		int win = linesWin(view) + (scatterMultiplier * totalBet);
 
-		/*
-		 * Add win to the statistics.
-		 */
+		/* Fill base game wins histogram. */
+		if (baseWinsHistogram.containsKey(win)) {
+			baseWinsHistogram.put(win, baseWinsHistogram.get(win) + 1);
+		} else {
+			baseWinsHistogram.put(win, 1);
+		}
+
+		/* Add win to the statistics. */
 		baseMoney += win;
 		wonMoney += win;
 		if (baseMaxWin < win) {
 			baseMaxWin = win;
 		}
 
-		/*
-		 * Count base game hit rate.
-		 */
+		/* Count base game hit rate. */
 		if (win > 0) {
 			baseGameHitRate++;
 		}
 
-		/*
-		 * Count into free spins hit rate.
-		 */
+		/* Count into free spins hit rate. */
 		if (freeGamesList.size() > 0) {
 			totalNumberOfFreeGameStarts++;
 		}
 
-		/*
-		 * Play all free games.
-		 */
+		/* Play all free games. */
 		while (freeGamesList.size() > 0) {
 			totalNumberOfFreeGames++;
 
@@ -1058,9 +887,7 @@ class MainClass {
 		freeGamesList.clear();
 	}
 
-	/**
-	 * Print help information.
-	 */
+	/** Print help information. */
 	private static void printHelp() {
 		System.out.println("*******************************************************************************");
 		System.out.println("* Thracian Treasure Slot Simulation version 0.9.1                             *");
@@ -1099,9 +926,7 @@ class MainClass {
 		System.out.println("*******************************************************************************");
 	}
 
-	/**
-	 * Print all simulation input data structures.
-	 */
+	/** Print all simulation input data structures. */
 	private static void printDataStructures() {
 		System.out.println("Paytable:");
 		for (int i = 3; i < paytable.length; i++) {
@@ -1187,9 +1012,7 @@ class MainClass {
 		System.out.println();
 	}
 
-	/**
-	 * Print simulation statistics.
-	 */
+	/** Print simulation statistics. */
 	private static void printStatistics() {
 		System.out.println("Won money:\t" + wonMoney);
 		System.out.println("Lost money:\t" + lostMoney);
@@ -1241,11 +1064,33 @@ class MainClass {
 			System.out.println();
 		}
 		/**/
+
+		/**/
+		System.out.println();
+		System.out.println("Base Game Wins Histogram:");
+		double sum = 0;
+		ArrayList<Integer> keys;
+		Collections.sort(keys = new ArrayList<Integer>(baseWinsHistogram.keySet()));
+		for (Integer key : keys) {
+			double reduced = (double) key / (double) totalBet;
+			double rtp = (double) wonMoney / (double) lostMoney;
+			double probability = (double) baseWinsHistogram.get(key) / (double) totalNumberOfGames;
+			double deviation = probability * (reduced - rtp) * (reduced - rtp);
+
+			sum += deviation;
+
+			System.out.print(key);
+			System.out.print("\t");
+			System.out.print(baseWinsHistogram.get(key));
+			System.out.println();
+		}
+		System.out.println();
+		double volatility = Math.sqrt(sum);
+		System.out.println("Base Game Volatility:\t" + volatility);
+		/**/
 	}
 
-	/**
-	 * Print screen view.
-	 */
+	/** Print screen view. */
 	private static void printView() {
 		int max = view[0].length;
 		for (int i = 0; i < view.length; i++) {
@@ -1299,9 +1144,7 @@ class MainClass {
 		long numberOfSimulations = 10000000L;
 		long progressPrintOnIteration = 10000000L;
 
-		/*
-		 * Parse command line arguments.
-		 */
+		/* Parse command line arguments. */
 		for (int a = 0; a < args.length; a++) {
 			if (args.length > 0 && args[a].contains("-g")) {
 				String parameter = args[a].substring(2);
@@ -1372,17 +1215,13 @@ class MainClass {
 			}
 		}
 
-		/*
-		 * Simulation main loop.
-		 */
+		/* Simulation main loop. */
 		for (long g = 0L; g < numberOfSimulations; g++) {
 			if (verboseOutput == true && g == 0) {
 				System.out.println("Games\tRTP\tRTP(Base)\tRTP(Free)");
 			}
 
-			/*
-			 * Print progress report.
-			 */
+			/* Print progress report. */
 			if (verboseOutput == true && g % progressPrintOnIteration == 0) {
 				try {
 					System.out.print(g);
