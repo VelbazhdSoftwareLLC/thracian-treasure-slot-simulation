@@ -1,2 +1,1 @@
-language: csharp
-solution: CSharpSimulation.sln
+language: Java
