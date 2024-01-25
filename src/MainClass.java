@@ -1067,7 +1067,7 @@ class MainClass {
 
 		/**/
 		System.out.println();
-		System.out.println("Base Game Wins Histogram:");
+		System.out.println("Base Game Volatility:");
 		double sum = 0;
 		ArrayList<Integer> keys;
 		Collections.sort(keys = new ArrayList<Integer>(baseWinsHistogram.keySet()));
