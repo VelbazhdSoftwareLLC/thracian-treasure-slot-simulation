@@ -1,6 +1,6 @@
 /*==============================================================================
 * Thracian Treasure Slot Simulation version 0.9.1                              *
-* Copyrights (C) 2013-2024 Velbazhd Software LLC                               *
+* Copyrights (C) 2013-2026 Velbazhd Software LLC                               *
 *                                                                              *
 * developed by Todor Balabanov ( todor.balabanov@gmail.com )                   *
 * Sofia, Bulgaria                                                              *
@@ -28,8 +28,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+class LCGRandom extends Random {
+	private long a;
+	private long c;
+	private long m;
+	private long x;
+
+	LCGRandom(long a, long c, long m) {
+		this.a = a;
+		this.c = c;
+		this.m = m;
+		x = 1;
+	}
+
+	void seed(long x) {
+		this.x = x;
+	}
+
+	@Override
+	public int nextInt(int limit) {
+		x = (a * x + c) % m;
+		return (int) x;
+	}
+}
+
 /** Main application class. */
-class MainClass {
+class Main {
 	/** Free spins helper class. Only keeps information of free spin properties. */
 	private static class FreeSpin {
 		public int freeGamesNumber = 0;
@@ -43,8 +67,14 @@ class MainClass {
 		}
 	}
 
+	/** Cryptographically secure number generator. */
+	private static Random lcg = new LCGRandom(1664525L, 1013904223L, 4294967296L);
+
+	/** Cryptographically secure number generator. */
+	private static Random secure = new SecureRandom();
+
 	/** Pseudo-random number generator. */
-	private static Random prng = new SecureRandom();
+	private static Random prng = secure;
 
 	/** List of symbols names. */
 	private static String[] symbols = { "", "SYM01", "", "SYM03", "SYM04", "SYM05", "SYM06", "SYM07", "SYM08", "SYM09",
@@ -490,6 +520,9 @@ class MainClass {
 	/** Wild expansion flag. */
 	private static boolean wildExpandOff = false;
 
+	/** Linear congruential generator check of performance flag. */
+	private static boolean lcgCheck = false;
+
 	/** Symbols win hit rate in base game. */
 	private static long[][] baseSymbolMoney = { new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 			new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, new long[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -505,31 +538,31 @@ class MainClass {
 	/** Static constructor for discrete distributions shuffling. */
 	static {
 		for (int last = freeMultiplierDistribution.length - 1, r = -1, swap = -1; last > 0; last--) {
-			r = prng.nextInt(last + 1);
+			r = secure.nextInt(last + 1);
 			swap = freeMultiplierDistribution[last];
 			freeMultiplierDistribution[last] = freeMultiplierDistribution[r];
 			freeMultiplierDistribution[r] = swap;
 		}
 		for (int last = baseScatterDistritution.length - 1, r = -1, swap = -1; last > 0; last--) {
-			r = prng.nextInt(last + 1);
+			r = secure.nextInt(last + 1);
 			swap = baseScatterDistritution[last];
 			baseScatterDistritution[last] = baseScatterDistritution[r];
 			baseScatterDistritution[r] = swap;
 		}
 		for (int last = free1ScatterDistritution.length - 1, r = -1, swap = -1; last > 0; last--) {
-			r = prng.nextInt(last + 1);
+			r = secure.nextInt(last + 1);
 			swap = free1ScatterDistritution[last];
 			free1ScatterDistritution[last] = free1ScatterDistritution[r];
 			free1ScatterDistritution[r] = swap;
 		}
 		for (int last = free2ScatterDistritution.length - 1, r = -1, swap = -1; last > 0; last--) {
-			r = prng.nextInt(last + 1);
+			r = secure.nextInt(last + 1);
 			swap = free2ScatterDistritution[last];
 			free2ScatterDistritution[last] = free2ScatterDistritution[r];
 			free2ScatterDistritution[r] = swap;
 		}
 		for (int last = free3ScatterDistritution.length - 1, r = -1, swap = -1; last > 0; last--) {
-			r = prng.nextInt(last + 1);
+			r = secure.nextInt(last + 1);
 			swap = free3ScatterDistritution[last];
 			free3ScatterDistritution[last] = free3ScatterDistritution[r];
 			free3ScatterDistritution[r] = swap;
@@ -840,6 +873,11 @@ class MainClass {
 		int r = baseStripsDistribution[prng.nextInt(baseStripsDistribution.length)] - 1;
 		reels = reelsSets[r];
 		wilds = wildsSets[r];
+
+		/* Support seed for LCG checking mode. */
+		if (lcgCheck == true) {
+			((LCGRandom) lcg).seed(secure.nextInt());
+		}
 
 		/* Spin reels. */
 		spin(reels[0]);
@@ -1200,6 +1238,10 @@ class MainClass {
 			if (args.length > 0 && args[a].contains("-verify")) {
 				printDataStructures();
 				System.exit(0);
+			}
+
+			if (args.length > 0 && args[a].contains("-lcg")) {
+				lcgCheck = true;
 			}
 
 			if (args.length > 0 && args[a].contains("-help")) {
