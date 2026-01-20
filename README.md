@@ -2,4 +2,11 @@
 
 Slot machine game simulation.
 
-dotnet run
+javac Main.java
+
+java Main -help
+
+java Main -g100m -p10k
+
+java Main -verify
+

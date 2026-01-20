@@ -1,5 +1,5 @@
 /*==============================================================================
-* Thracian Treasure Slot Simulation version 0.9.1                              *
+* Thracian Treasure Slot Simulation version 0.9.2                              *
 * Copyrights (C) 2013-2026 Velbazhd Software LLC                               *
 *                                                                              *
 * developed by Todor Balabanov ( todor.balabanov@gmail.com )                   *
@@ -67,7 +67,7 @@ class Main {
 		}
 	}
 
-	/** Cryptographically secure number generator. */
+	/** LCG number generator. */
 	private static Random lcg = new LCGRandom(1664525L, 1013904223L, 4294967296L);
 
 	/** Cryptographically secure number generator. */
@@ -876,7 +876,7 @@ class Main {
 
 		/* Support seed for LCG checking mode. */
 		if (lcgCheck == true) {
-			((LCGRandom) lcg).seed(secure.nextInt());
+			((LCGRandom) lcg).seed(Math.abs(secure.nextInt()));
 		}
 
 		/* Spin reels. */
@@ -928,8 +928,8 @@ class Main {
 	/** Print help information. */
 	private static void printHelp() {
 		System.out.println("*******************************************************************************");
-		System.out.println("* Thracian Treasure Slot Simulation version 0.9.1                             *");
-		System.out.println("* Copyrights (C) 2013-2024 Velbazhd Software LLC                              *");
+		System.out.println("* Thracian Treasure Slot Simulation version 0.9.2                             *");
+		System.out.println("* Copyrights (C) 2013-2026 Velbazhd Software LLC                              *");
 		System.out.println("*                                                                             *");
 		System.out.println("* developed by Todor Balabanov ( todor.balabanov@gmail.com )                  *");
 		System.out.println("* Sofia, Bulgaria                                                             *");
@@ -960,6 +960,8 @@ class Main {
 		System.out.println("* -expandoff      Switch off wild expansion.                                  *");
 		System.out.println("*                                                                             *");
 		System.out.println("* -verify         Print input data structures.                                *");
+		System.out.println("*                                                                             *");
+		System.out.println("* -lcg            Linear congruential generator check.                        *");
 		System.out.println("*                                                                             *");
 		System.out.println("*******************************************************************************");
 	}
