@@ -28,12 +28,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/** Linear congruential random number generator class. */
 class LCGRandom extends Random {
+	/** Multiplicative factor. */
 	private long a;
+
+	/** Additive factor. */
 	private long c;
+
+	/** Modulus. */
 	private long m;
+
+	/** Current state. */
 	private long x;
 
+	/**
+	 * Constructor with parameters.
+	 * 
+	 * @param a Multiplicative factor.
+	 * @param c Additive factor.
+	 * @param m Modulus.
+	 */
 	LCGRandom(long a, long c, long m) {
 		this.a = a;
 		this.c = c;
@@ -41,10 +56,12 @@ class LCGRandom extends Random {
 		x = 1;
 	}
 
+	/** Seed the generator. */
 	void seed(long x) {
 		this.x = x;
 	}
 
+	/** Get next integer in range [0, limit). */
 	@Override
 	public int nextInt(int limit) {
 		x = (a * x + c) % m;
